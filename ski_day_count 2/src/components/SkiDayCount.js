@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import '../stylesheets/ui.scss'
 
 export class SkiDayCount extends Component {
