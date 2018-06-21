@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My Portfolio</title>
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+    <style>
+      .foo {
+        border: 1px solid red;
+      }
+      nav a {
+        display: inline-block;
+        padding: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- This is the wrapper that the JSX gets pulled into -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+    // Start with caps as this is component
+      const NavBar = () => {
+        // here don't use render as it's just a function, not a class
+        return (
+          <nav>
+            <a href="http://facebook.com">Facebook</a>
+            <a href="http://instagram.com">Instagram</a>
+          </nav>
+        )
+      }
+
+      const Project = (arg) => {
+        // this arg is for properties
+        return (
+          <div>
+            <h3>{ arg.title }</h3>
+            <p>This is my project</p>
+          </div>
+        )
+      }
+
+      ReactDOM.render(
+        // Below is JSX ()
+        // need commas after each element if not wrapped in a parent element
+        // to denote class use className as class is a reserved word in js
+        // (Any other reserved js words will have an alternative so just look up)
+        <div id="bar" className = "foo">
+        // space below is just for convention
+          <NavBar />
+          <h1>Portfolio</h1>
+          <p>Hello</p>
+          // This is how you pass arguments to the function (html properties)
+          <Project title="My first Project" />
+          <Project title="My second Project" />
+          <Project title="My Awesome Project"/>
+        </div>,
+        document.getElementById('root')
+      );
+    </script>
+  </body>
+</html>

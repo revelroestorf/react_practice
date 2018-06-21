@@ -50,13 +50,11 @@ class App extends Component {
     })
   }
   render() {
+    var { picture, name, email, phone } = this.state.profile
     if (this.state.prevUser) {
-      var { picture, name, email, phone, loading } = this.state.prevProfile
-    } else {
-      const { picture, name, email, phone, loading } = this.state.profile
+      var { picture, name, email, phone } = this.state.prevProfile
     }
-    console.log(this.state.prevUser)
-    if (loading) {
+    if (this.state.loading) {
       return (
         <div className="App">
           <header className="App-header">
