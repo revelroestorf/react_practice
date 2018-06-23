@@ -42,10 +42,12 @@ class App extends Component {
         <header className="App-header">
           <h1 className="App-title">Students</h1>
         </header>
+
         <form onSubmit={this.addStudent}>
           <label htmlFor="studentname">New Student</label>
           <input id="studentname" onChange={ this.changeStudent } value={ this.state.newstudent } />
         </form>
+
         <p>{ this.state.newstudent }</p>
         {this.state.students.map((student) => <Student key={ student.id } name={ student.name } />)}
       </div>
