@@ -7,7 +7,11 @@ mongoose.connect('mongodb://localhost/express-mongo-passport')
   // connect passport to user model.. but can't like in rails so first need to
   // create a schema and attach passport to that
   // Create schema and assign to variable
-const user_schema = new mongoose.Schema({})
+const user_schema = new mongoose.Schema({
+  // key: val,
+  // key: val,
+  // key: val
+})
 
 // plugin is a method of mongoose
 // Attach passport to schema
