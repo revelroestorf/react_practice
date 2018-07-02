@@ -10,7 +10,7 @@ class Bookmarks extends Component {
       const bookmarks = await axios.get(
         'http://localhost:4000/bookmarks'
       )
-      this.props.app.setState({ bookmarks: bookmarks.data, loading: false })
+      this.props.app.setState({ bookmarks: bookmarks.data })
     }
     catch(error) {
       alert("can't get bookmarks!")
