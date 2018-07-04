@@ -4,6 +4,8 @@ import { api, setJwt } from './api/init';
 import SignIn from './components/SignIn';
 import './App.css';
 import Bookmarks from './components/Bookmarks'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+
 
 
 
@@ -24,10 +26,11 @@ class App extends Component {
   state = {
     token: localStorage['token'] || null,
     loginError: null,
-    bookmarks: localStorage['bookmarks'] ? JSON.parse(localStorage['bookmarks']) : []
+    bookmarks: localStorage['bookmarks'] ? JSON.parse(localStorage['bookmarks']) : null
   }
 
   getBookmarks = async () => {
+    console.log('started App getBookmarks()')
     const resp = await api.get('/bookmarks')
     return resp.data
     // console.log(resp)
@@ -35,22 +38,21 @@ class App extends Component {
 
 
   handleSignIn = async (event) => {
-    // console.log(localStorage['token'])
-    if (localStorage['token']) {
-      this.setState({ token: localStorage['token'] })
-    } else {
-
-      try {
-        const response = await apiSignIn(event)
-        this.setState({ token: response.data.token })
-        setJwt(response.data.token)
-      } catch (error) {
-        this.setState({ loginError: error.message })
+    console.log('started App handleSignIn()')
+    try {
+      const response = await apiSignIn(event)
+      this.setState({ token: response.data.token })
+      setJwt(response.data.token)
+    } catch (error) {
+      this.setState({ loginError: error.message })
       }
-    }
     const bookmarks = await this.getBookmarks()
-    localStorage['bookmarks'] = JSON.stringify(bookmarks)
-    this.setState({ bookmarks: bookmarks})
+    this.setState({ bookmarks: bookmarks })
+    localStorage.setItem('bookmarks', JSON.stringify(bookmarks))
+    // console.log(JSON.parse(localStorage['bookmarks']))
+
+    // console.log(bookmarks)
+
   }
 
 
@@ -63,13 +65,23 @@ class App extends Component {
 
   render() {
 
+    console.log(this.state.bookmarks)
+
     const tokenDetails = this.state.token && decodeJWT(this.state.token)
 
     const bookmarks = this.state.bookmarks
 
+    const server = 'http://localhost:4000'
+
+    // console.log((tokenDetails.exp * 1000) < new Date() ? 'expired' : 'still valid')
+    // console.log(new Date(tokenDetails.exp * 1000))
+    // console.log(new Date())
+
+
+
     return (
       <div className="App">
-        { this.state.token && (tokenDetails.exp * 1000) < new Date() ? (
+        { this.state.token ? (
           <div>
 
             <div>
@@ -81,16 +93,34 @@ class App extends Component {
               <button onClick={() => this.logout()} >Logout</button>
             </div>
 
-            <Bookmarks bookmarks={bookmarks} />
+            <Router>
+              <div>
+                <button><Link to="/bookmarks">Bookmarks</Link></button>
+                <Route path="/bookmarks" render={(routerprops) => (
+                  <Bookmarks {...routerprops} bookmarks={bookmarks} />
+                )} />
+              </div>
+            </Router>
 
           </div>
 
-        ) : (
-          <SignIn
-            loginError={this.state.loginError}
-            handleSignIn={this.handleSignIn}
-           />
-        )}
+          ) : (
+
+            <Router>
+              <Route path="/" render={(routerprops) => (
+                <SignIn {...routerprops} loginError={this.state.loginError} handleSignIn={this.handleSignIn} />
+              )} />
+            </Router>
+
+
+        // <SignIn
+        //   loginError={this.state.loginError}
+        //   handleSignIn={this.handleSignIn}
+        //  />
+
+         )}
+
+
       </div>
     );
   }
@@ -99,4 +129,7 @@ class App extends Component {
 
 export default App;
 
-//
+// <SignIn
+//   loginError={this.state.loginError}
+//   handleSignIn={this.handleSignIn}
+//  />

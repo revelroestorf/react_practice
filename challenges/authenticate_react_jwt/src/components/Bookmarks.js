@@ -2,6 +2,8 @@ import React from 'react'
 
 function Bookmarks (props) {
 
+  console.log('started Bookmarks component')
+
   return (
 
     <div>

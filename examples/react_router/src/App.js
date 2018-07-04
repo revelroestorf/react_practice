@@ -41,7 +41,7 @@ class App extends Component {
             <About {...routerProps} example="hello" />
           )} />
           <Route path="/music/:artist" component={Music} />
-          </div>
+        </div>
       </Router>
     )
   }
